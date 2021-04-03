@@ -1,0 +1,22 @@
+
+<title>Exmat Home</title>
+{% if g.user %}
+	<h1>WELCOME TO HOME PAGE</h1>
+	<ul>
+	    {% for k in g.user.keys() %}
+		    <li>{{k}}: {{g.user[k]}}</li>
+		{% endfor %}
+		<li>Refering Link: {{ request.host + url_for('auth.register', sponsor_referring_id=g.user["referring_id"]) }}</li>
+		{% if has_registered %}
+		<li><a href="{{ url_for('contract.dashboard') }}">My Dashboard</a></li>
+		{% else %}
+		<li><a href="{{ url_for('contract.register') }}">Start Matrix</a></li>
+		{% endif %}
+		<li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+	</ul>
+{% else %}
+	<ul>
+		<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+		<li><a href="{{ url_for('auth.register') }}">Register</a></li>
+	</ul>
+{% endif %}

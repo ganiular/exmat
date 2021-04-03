@@ -1,0 +1,18 @@
+<form method="POST" onsubmit="return send(this, event)">
+	Email: <input type="email" name="email"><br><br>
+	Password: <input type="password" name="password"><br><br>
+	Confirm Password: <input type="password" name="cpassword"><br><br>
+	{% if not sponsor_id %}
+    <p>Do you have an inviter? If yes.</p>
+    Inviter Id: <input type="text" name="sponsor"><br><br>
+	{% endif %}
+	<input type="submit" value="Register">
+</form>
+
+<ul>
+	<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+</ul>
+
+<div id="message"></div>
+
+<script src="{{url_for('static', filename='script.js')}}"></script>

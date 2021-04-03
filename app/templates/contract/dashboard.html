@@ -1,0 +1,74 @@
+<title>Dashboard</title>
+
+<ul>
+    <li>user id: {{g.user['id']}}</li>
+    <li>email: {{g.user['email']}}</li>
+    <li>referring id: {{g.user['referring_id']}}</li>
+    <li>address: {{g.user['address']}}</li>
+    <li>number of accounts: {{ sponsor_count }}</li>
+    <li>number of partners: {{ partner_count }}</li>
+    <li>sponsors</li>
+    <ol type="1">
+        {% for row in sponsors %}<li><a href="{{url_for('contract.login', user_id=row['sponsor'])}}">{{row["sponsor"]}}</a></li>{% endfor %}
+    </ol>
+</ul>
+<form action="{{url_for('contract.add_account')}}" method="POST">
+    New Account Inviter: <input type="text" name="sponsor" required>
+    <input type="submit" value="Add">
+</form>
+<h3>Matrix X3</h3>
+{% for level in range(5) %}
+<h4>level {{level}}</h4>
+<div class="level">
+    {% set count=0 %}
+    {% for slot in query_slot(1, level) %}
+        {% if slot['position'] == 1 %}
+        <div>
+        {% endif %}
+            <a href="{{url_for('contract.login', user_id=slot['filler'])}}" class="paint{{slot['paytype']}}">{{slot['filler']}}</a>
+        {% if slot['position'] == 3 %}
+        </div>
+        {% endif %}
+        {% set count = count + 1 %}
+    {% else %}
+        {% if not has_matrix(1,level) %}<a href="{{url_for('contract.buy_matrix', matrix=1, level=level)}}">Buy</a>{% endif %}
+    {% endfor %}
+    {% if count%3 != 0 %}
+        </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<ul class="paint">
+    {% for i in range(1,10) %}<li>{{paytypes(i)}} <span class="paint{{i}}">•</span></li>{% endfor %}
+</ul>
+
+<style>
+.paint span, .level a{
+    margin: 2px;
+    padding: 4px 16px;
+    display: inline-block;
+}
+.paint1{
+    background-color: #ccccff;
+}
+.paint2{
+    background-color: #ccffff;
+}
+.paint3{
+    background-color: #ccffcc;
+}
+.paint4{
+    background-color: #ffccff;
+}
+.paint5{
+    background-color: #ccaaff;
+}
+.paint6{
+    background-color: #ffcccc;
+}
+.paint7{
+    background-color: #ffffcc;
+}
+
+</style>

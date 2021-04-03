@@ -1,0 +1,15 @@
+
+<form method="POST" onsubmit="return send(this, event)">
+	email: <input type="email" name="email"><br><br>
+	password: <input type="password" name="password"><br><br>
+	<input type="submit" value="Login">
+</form>
+
+<ul>
+	<li><a href="{{ url_for('auth.resetpassword') }}">Forget Password?</a></li>
+	<li><a href="{{ url_for('auth.register') }}">Register</a></li>
+</ul>
+
+<div id="message"></div>
+
+<script src="{{url_for('static', filename='script.js')}}"></script>

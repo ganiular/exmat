@@ -1,0 +1,10 @@
+<table border="1">
+    <tr>
+    {% for h in cur.description %}<th>{{h[0]}}</th>{% endfor %}
+    </tr>
+    {% for row in cur %}
+    <tr>
+        {% for d in row %}<td>{{d}}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+</table>

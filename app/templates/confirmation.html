@@ -1,0 +1,13 @@
+
+<form method="POST" onsubmit="return send(this, event)">
+	confrimation code: <input type="text" name="code"><br><br>
+	<input type="submit" value="Confirm">
+</form>
+
+<ul>
+	<li><a href="{{ request.base_url }}">Resend</a></li>
+</ul>
+
+<div id="message">{{message}}</div>
+
+<script src="{{url_for('static', filename='script.js')}}"></script>
