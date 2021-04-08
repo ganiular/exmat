@@ -23,10 +23,35 @@ CREATE TABLE x3matrix(
 	level INT,
     slot_count INT DEFAULT 0,
     reopen_count INTEGER DEFAULT 0,
-    next_sponsor_index INT DEFAULT 0,
-    next_partner_index INT DEFAULT 0,
-    FOREIGN KEY (owner, upline) REFERENCES user(id, id)
+    partner_count INTEGER DEFAULT 0,
+    last_sponsor_index INT DEFAULT -1,
+    next_partner_index INTEGER DEFAULT 0,
+    account_index INT DEFAULT 0,
+    FOREIGN KEY (owner, upline) REFERENCES user(id, id),
+    FOREIGN KEY (last_sponsor_index, account_index) REFERENCES account(_index, _index),
+    FOREIGN KEY (next_partner_index) REFERENCES x3matrix(id)
     -- FOREIGN KEY (partner_id) REFERENCES partner(id)
+);
+
+CREATE TABLE x4matrix(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    owner INTEGER NOT NULL,
+    upline INTEGER NOT NULL,
+    level INT,
+    f_slot_count INT DEFAULT 0,
+    s_slot_count INT DEFAULT 0,
+    reopen_count INTEGER DEFAULT 0,
+    partner_count INTEGER DEFAULT 0,
+    last_sponsor_index INT DEFAULT -1,
+    next_partner_index INTEGER DEFAULT 0,
+    next_partner_index2 INTEGER DEFAULT 0,
+    _index INT DEFAULT 0,
+    account_index INT DEFAULT 0,
+    payindex INT DEFAULT 1,
+    debt INT DEFAULT 0,
+    FOREIGN KEY (owner, upline) REFERENCES user(id, id),
+    FOREIGN KEY (last_sponsor_index, account_index) REFERENCES account(_index, _index),
+    FOREIGN KEY (next_partner_index, next_partner_index2) REFERENCES x4matrix(id, id)
 );
 
 CREATE TABLE account(
@@ -76,7 +101,7 @@ INSERT INTO paytypes VALUES
 (1, 'direct'), (2, 'overtaken'), (3, 'reopen'),
 (4, 'thanksgiven'), (5, 'direct from downline'),
 (6, 'direct from upline'), (7, 'from upline'),
-(8, 'from downline'), (9, 'forward');
+(8, 'from downline'), (9, 'forward'), (10, 'reflect');
 
 INSERT INTO reasons VALUES
 (1, 'not activated'), (2, 'offline'),

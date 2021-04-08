@@ -9,6 +9,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from utils import safe
 from utils.data_signature import verify
+from utils.hex_encryption import encrypt
 from utils import mail
 from utils.unique_id import generate_id
 from utils.decorators import sense_response
@@ -208,10 +209,12 @@ def email_confirmation():
 				if tr.seconds > current_app.config['CONFIRMATION_TIMEOUT']:
 					return {"success":False, "message":"code expired"}
 				elif check_password_hash(conf["code"], code):
+					address, private_key = current_app.config['ACCOUNTS'][(user_id-1)%len(current_app.config['ACCOUNTS'])].values()
 					db.activate_email(
 						user_id,
 						generate_id(user_id - 1),
-						**current_app.config['ACCOUNTS'][user_id-1]
+						address,
+						encrypt(private_key),
 					)
 					# db.reset_triers(g.user['id'])
 					return dict(success=True, message="email confirmed", redirect=url_for("main.home"))

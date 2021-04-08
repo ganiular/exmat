@@ -28,7 +28,8 @@ CREATE TABLE user(
 	error_triers INT DEFAULT 0,
 	address TEXT,
 	private_key TEXT,
-	public_key TEXT
+	public_key TEXT,
+	browser_hash TEXT
 );
 
 CREATE TABLE confirmation(

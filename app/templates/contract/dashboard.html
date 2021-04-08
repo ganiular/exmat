@@ -16,38 +16,75 @@
     New Account Inviter: <input type="text" name="sponsor" required>
     <input type="submit" value="Add">
 </form>
-<h3>Matrix X3</h3>
-{% for level in range(5) %}
-<h4>level {{level}}</h4>
-<div class="level">
-    {% set count=0 %}
-    {% for slot in query_slot(1, level) %}
-        {% if slot['position'] == 1 %}
-        <div>
-        {% endif %}
-            <a href="{{url_for('contract.login', user_id=slot['filler'])}}" class="paint{{slot['paytype']}}">{{slot['filler']}}</a>
-        {% if slot['position'] == 3 %}
+
+<table width="100%"><tr>
+    <td>
+        <h3>Matrix X3</h3>
+        {% for level in range(5) %}
+        <h4>level {{level}}</h4>
+        <div class="level">
+            {% if has_matrix(1, level) %}
+                {% for row in query_slot(1, level) %}
+                    <div>
+                    {% for slot in row %}
+                        {% if not slot %}
+                            <span class="slot">.</span>
+                        {% else %}
+                            <a href="{{url_for('contract.login', user_id=slot['filler'])}}" class="slot paint{{slot['paytype']}}">{{slot['filler']}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <div><span class="slot">.</span> <span class="slot">.</span> <span class="slot">.</span></div>
+                {% endfor %}
+            {% else %}
+                <a href="{{url_for('contract.buy_matrix', matrix=1, level=level)}}">Buy</a>
+            {% endif %}
         </div>
-        {% endif %}
-        {% set count = count + 1 %}
-    {% else %}
-        {% if not has_matrix(1,level) %}<a href="{{url_for('contract.buy_matrix', matrix=1, level=level)}}">Buy</a>{% endif %}
-    {% endfor %}
-    {% if count%3 != 0 %}
+        {% endfor %}
+    </td>
+    <td>
+        <h3>Matrix X4</h3>
+        {% for level in range(5) %}
+        <h4>level {{level}}</h4>
+        <div class="level">
+            {% if has_matrix(2, level) %}
+                {% for row in query_slot(2, level) %}
+                    <div>
+                    {% for slot in row %}
+                        {% if not slot %}
+                            <span class="slot">.</span>
+                        {% else %}
+                            <a href="{{url_for('contract.login', user_id=slot['filler'])}}" class="slot paint{{slot['paytype']}}">{{slot['filler']}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <div><span class="slot">.</span> <span class="slot">.</span> <span class="slot">.</span> <span class="slot">.</span> <span class="slot">.</span> <span class="slot">.</span></div>
+                {% endfor %}
+            {% else %}
+                <a href="{{url_for('contract.buy_matrix', matrix=2, level=level)}}">Buy</a>
+            {% endif %}
         </div>
-    {% endif %}
-</div>
-{% endfor %}
+        {% endfor %}
+    </td>
+</tr></table>
 
 <ul class="paint">
-    {% for i in range(1,10) %}<li>{{paytypes(i)}} <span class="paint{{i}}">•</span></li>{% endfor %}
+    {% for i in range(1,11) %}<li>{{paytypes(i)}} <span class="slot paint{{i}}">.</span></li>{% endfor %}
 </ul>
 
 <style>
-.paint span, .level a{
+td{
+    vertical-align: top;
+}
+.slot{
     margin: 2px;
     padding: 4px 16px;
     display: inline-block;
+    width: 12px;
+    border: 1px solid #cccccc;
+    text-align: center;
 }
 .paint1{
     background-color: #ccccff;
@@ -70,5 +107,13 @@
 .paint7{
     background-color: #ffffcc;
 }
-
+.paint8{
+    background-color: #45ae98;
+}
+.paint9{
+    background-color: #f6a780;
+}
+.paint10{
+    background-color: #a8df08;
+}
 </style>
